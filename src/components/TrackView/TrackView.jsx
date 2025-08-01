@@ -90,7 +90,7 @@ class TrackView extends Component {
 
     onTrackRowSignatureChange(trackId, newTimeSignature) {
 
-        if (newTimeSignature < 24) {
+        if (newTimeSignature < 25) {
             let track = [...this.props.track]
             if (newTimeSignature > track[trackId].length) {
                 // add silent beat

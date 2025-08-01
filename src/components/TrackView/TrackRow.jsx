@@ -26,7 +26,8 @@ class TrackRow extends Component {
     }
 
     addBeat() {
-        if (this.props.trackRow.length < Config.MAXIMUM_TIMESIGNATURE) {
+        if (this.props.trackRow.length < Config.MAXIMUM_TIMESIGNATURE+10) {
+            console.log(this.props.trackRow.length, Config.MAXIMUM_TIMESIGNATURE)
             this.props.onMeasureChange(this.props.trackRow.length + 1)
         }
     }

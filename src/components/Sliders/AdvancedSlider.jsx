@@ -10,13 +10,13 @@ class AdvancedSlider extends Slider {
 
 		this.state.btnStep = props.btnStep || 1;
 	}
-	onMinusClick = () => {
-		const newValue = this.state.value - this.state.btnStep;
+	onMinusClick = (value) => {
+		const newValue = this.state.value - value;
 		this.setState({ value: newValue }, this.props.onChange(newValue))
 	}
 
-	onPlusClick = () => {
-		const newValue = this.state.value + this.state.btnStep;
+	onPlusClick = (value) => {
+		const newValue = this.state.value + value;
 		this.setState({ value: newValue }, this.props.onChange(newValue))
 	}
 
@@ -30,7 +30,9 @@ class AdvancedSlider extends Slider {
 		return (
 			<>
 				<div className="advancedSlider">
-					{this.props.disableBtns === true ? '' : <Button size="sm" outline className="inlineBtn" onClick={this.onMinusClick}>-</Button>}
+					{this.props.disableBtns === true ? '' : <Button size="sm" outline className="inlineBtn" onClick={() => this.onMinusClick(2)}>-2</Button>}
+					{this.props.disableBtns === true ? '' : <Button size="sm" outline className="inlineBtn" onClick={() => this.onMinusClick(5)}>-5</Button>}
+					{this.props.disableBtns === true ? '' : <Button size="sm" outline className="inlineBtn" onClick={() => this.onMinusClick(10)}>-10</Button>}
 					<Badge
 						onClick={this.props.editInPlace ? (e) => this.onBadgeClick(e) : function(){}}
 						color="light"
@@ -40,7 +42,9 @@ class AdvancedSlider extends Slider {
 						{/* {this.props.badgeFormatter(this.state.value)} */}
 					</Badge>
 					{this.props.editInPlace ? <EditInPlace ref={"editor"} title={this.props.title} value={this.state.value} min={this.props.min} max={this.props.max} onChange={(v) => this.onEdit(v)} /> : ''}
-					{this.props.disableBtns === true ? '' : <Button size="sm" outline className="inlineBtn" onClick={this.onPlusClick}>+</Button>}
+					{this.props.disableBtns === true ? '' : <Button size="sm" outline className="inlineBtn" onClick={() => this.onPlusClick(2)}>+2</Button>}
+					{this.props.disableBtns === true ? '' : <Button size="sm" outline className="inlineBtn" onClick={() => this.onPlusClick(5)}>+5</Button>}
+					{this.props.disableBtns === true ? '' : <Button size="sm" outline className="inlineBtn" onClick={() => this.onPlusClick(10)}>+10</Button>}
 				</div>
 				<div style={{ height: "30px" }}>
 					<div>{super.render()}</div>
