@@ -1,7 +1,6 @@
 {
     "name": "metro",
     "version": "2.2.1",
-    "homepage": ".",
     "dependencies": {
         "bootstrap": "^4.5.0",
         "firebase": "^11.0.1",
@@ -27,8 +26,6 @@
         "eslint": "^8.0.0"
     },
     "scripts": {
-        "predeploy": "npm run build",
-        "deploy": "gh-pages -d build",
         "start": "react-scripts --max_old_space_size=8192 start",
         "build": "react-scripts --max_old_space_size=8192 build",
         "test": "react-scripts test",
