@@ -135,7 +135,7 @@ class ModePanel extends Component {
 						{this.state.bpmStep}
 					</DropdownToggle>
 					<DropdownMenu>
-						{[1,2,3,5,10,15,20,30,50,100].map(el => {
+						{[1,2,3,5,7,8,10,15,20,30,50].map(el => {
 							return <DropdownItem key={"bpm_"+el} onClick={() => {this.onBpmStepSelect(el)}}>{el}</DropdownItem>
 						})
 					}
