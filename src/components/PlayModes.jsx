@@ -4,5 +4,6 @@ export const PlayModes = {
 	BY_BAR: "by_bar",
 	BY_TIME: "by_time",
 	SET_TIME: "set_time",
-	CONSTANT: "constant"
+	CONSTANT: "constant",
+	PERCENTAGE_TIME: "percentage_time"
 };

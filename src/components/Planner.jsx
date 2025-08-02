@@ -70,6 +70,21 @@ class Planner extends Component {
 				bpm += bpmStep;
 			}
 		}
+		else if (s.playMode === PlayModes.PERCENTAGE_TIME) {
+			let bpm = s.bpmRange[0];
+			let currentDuration = s.percentageTimeInterval;
+			const decreaseFactor = (100 - s.percentageDecrease) / 100;
+
+			while (bpm <= max) {
+				const segment = {
+					duration: currentDuration,
+					bpm: bpm
+				};
+				segments.push(segment);
+				bpm += s.bpmStep;
+				currentDuration *= decreaseFactor;
+			}
+		}
 
 		if (this.state.isUpDown) {
 			const rev = segments.slice().reverse();
@@ -151,6 +166,7 @@ class Planner extends Component {
 			switch (config.playMode) {
 				case PlayModes.BY_TIME:
 				case PlayModes.SET_TIME:
+				case PlayModes.PERCENTAGE_TIME:
 					t += this.calcTimeForBpm(s.duration, s.bpm);
 					break;
 				case PlayModes.BY_BAR:

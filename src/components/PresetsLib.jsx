@@ -4,7 +4,7 @@ import { Instruments } from "./Instruments";
 
 export const PresetsLib = [
     { "isHeader": true, title: "Basic" },
-    { title: "Metronome 2/4", "bpmStep": 20, "bpmRange": [100, 200], "currentBpm": 300, "playbackMode": "stop", "playMode": "by_time", "stepsNum": 10, "exerciseTime": 1800, "bpmStepDropdownOpen": false, "byTimeInterval": 60, "byBarInterval": 2, "constantBpmSlider": 300, "interval": 300, "track": [[2], [1]], "instrumentKey": "metronome" },
+    { title: "Metronome 2/4", "bpmStep": 20, "bpmRange": [100, 200], "currentBpm": 300, "playbackMode": "repeat", "playMode": "by_time", "stepsNum": 10, "exerciseTime": 1800, "bpmStepDropdownOpen": false, "byTimeInterval": 60, "byBarInterval": 2, "constantBpmSlider": 300, "interval": 300, "track": [[2], [1]], "instrumentKey": "metronome" },
 
     {
         title: "Metronome 4/4",
@@ -57,6 +57,10 @@ export const PresetsLib = [
     { "bpmStep": 20, "bpmRange": [400, 600], "currentBpm": 300, "playbackMode": "stop", "playMode": "by_time", "stepsNum": 10, "exerciseTime": 1800, "bpmStepDropdownOpen": false, "byTimeInterval": 120, "byBarInterval": 2, "constantBpmSlider": 300, "track": [[0, 3], [], [1], [1, 3], [0], [], [1, 3], [1], [0], [], [3, 1], [1], [0], [], [0, 1, 3], [1]], "instrumentKey": "yamaha_rx5", "title": "Gahu" },
     { "bpmStep": 20, "bpmRange": [400, 600], "currentBpm": 300, "playbackMode": "stop", "playMode": "by_time", "stepsNum": 10, "exerciseTime": 1800, "bpmStepDropdownOpen": false, "byTimeInterval": 120, "byBarInterval": 2, "constantBpmSlider": 300, "track": [[0, 3], [], [1], [1], [0, 3], [], [1, 3, 0], [1], [0], [], [3, 1], [1], [0, 3], [], [0, 1], [1]], "instrumentKey": "yamaha_rx5", "title": "Shiko" },
 
+    // Percentage-based speed training
+    { "isHeader": true, title: "Speed Training" },
+    { "bpmStep": 5, "bpmRange": [80, 100], "currentBpm": 80, "playbackMode": "stop", "playMode": "percentage_time", "stepsNum": 10, "exerciseTime": 1800, "bpmStepDropdownOpen": false, "byTimeInterval": 20, "byBarInterval": 2, "constantBpmSlider": 80, "percentageTimeInterval": 20, "percentageDecrease": 10, "track": [[2], [1]], "instrumentKey": "metronome", "title": "Percentage Speed Training" },
+
     // Polyrhythms
     { "isHeader": true, title: "Polyrhythms" },
     { "title": "3 over 4", "bpmStep": 20, "bpmRange": [100, 200], "currentBpm": 100, "playbackMode": "stop", "playMode": "by_time", "stepsNum": 10, "exerciseTime": 1800, "bpmStepDropdownOpen": false, "byTimeInterval": 60, "constantBpmSlider": 300, "track": [[1, 0, 0, 0], [0, 1, 1], [1, 1, 1, 1], [0, 0, 0, 0]], "timeSignature": 4, "instrumentKey": "basicdrumkit" },
@@ -97,19 +101,21 @@ export const InitPreset_debug = {
 
 
 export const InitPreset = {
-    "bpmStep": 50,
+    "bpmStep": 5,
     "bpmRange": [
-        300,
-        400
+        80,
+        120
     ],
-    "playbackMode": "stop",
+    "playbackMode": "repeat",
     "playMode": "constant",
     "stepsNum": 10,
     "exerciseTime": 600,
     "bpmStepDropdownOpen": false,
     "byTimeInterval": 5,
     "byBarInterval": 2,
-    "constantBpmSlider": 300,
+    "constantBpmSlider": 100,
+    "percentageTimeInterval": 20,
+    "percentageDecrease": 10,
     "track": [
         [
             1,

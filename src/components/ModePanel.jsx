@@ -30,7 +30,9 @@ class ModePanel extends Component {
 		bpmStepDropdownOpen: false,
 		byTimeInterval: this.props.byTimeInterval,
 		byBarInterval: this.props.byBarInterval,
-		constantBpmSlider: this.props.constantBpmSlider
+		constantBpmSlider: this.props.constantBpmSlider,
+		percentageTimeInterval: this.props.percentageTimeInterval,
+		percentageDecrease: this.props.percentageDecrease
 	}
 
 	onAfterChange(e) {
@@ -75,6 +77,13 @@ class ModePanel extends Component {
 		// this.refs.exerciseTimeSlider.setValue(o.exerciseTime || InitPreset.exerciseTime);
 
 		this.refs.bpmRange.setState({ bounds: o.bpmRange })
+		
+		// Set percentage sliders if they exist
+		if (this.refs.percentageTimeSlider) {
+			this.refs.percentageTimeSlider.setValue(o.percentageTimeInterval || InitPreset.percentageTimeInterval)
+		}
+		// Note: AdvancedSlider doesn't have setValue method, so we rely on state updates
+		
 		this.setState(
 			{
 				playMode: o.playMode,
@@ -85,9 +94,9 @@ class ModePanel extends Component {
 				byBarInterval: o.byBarInterval,// || this.state.byBarInterval,
 				byTimeInterval: o.byTimeInterval, //|| this.state.byTimeInterval,
 				bpmRange: o.bpmRange,
-
-				constantBpmSlider: o.constantBpmSlider || this.state.constantBpmSlider
-
+				constantBpmSlider: o.constantBpmSlider || this.state.constantBpmSlider,
+				percentageTimeInterval: o.percentageTimeInterval || this.state.percentageTimeInterval,
+				percentageDecrease: o.percentageDecrease || this.state.percentageDecrease
 			},
 			this.onAfterChange
 		);
@@ -100,6 +109,14 @@ class ModePanel extends Component {
 
 	onBarIntervalChange(v) {
 		this.setState({ byBarInterval: v, interval: v }, this.onAfterChange);
+	}
+
+	onPercentageTimeIntervalChange(v) {
+		this.setState({ percentageTimeInterval: v }, this.onAfterChange);
+	}
+
+	onPercentageDecreaseChange(v) {
+		this.setState({ percentageDecrease: v }, this.onAfterChange);
 	}
 
 	byBarFormatter(barsNum) {
@@ -222,7 +239,14 @@ class ModePanel extends Component {
 					>
 						{Tr("By time")}
 					</Button>
-
+					<Button
+						size="sm"
+						outline
+						onClick={() => this.onModeChange(PlayModes.PERCENTAGE_TIME)}
+						active={this.state.playMode === PlayModes.PERCENTAGE_TIME}
+					>
+						{Tr("Percentage")}
+					</Button>
 					<Button
 						size="sm"
 						outline
@@ -233,10 +257,31 @@ class ModePanel extends Component {
 					</Button>
 				</ButtonGroup>
 
-
-
 				<Collapse isOpen={this.state.playMode !== PlayModes.CONSTANT}>
 					{this.renderSpeedRange()}
+				</Collapse>
+
+				<Collapse isOpen={this.state.playMode !== PlayModes.CONSTANT && this.state.playMode !== PlayModes.SET_TIME}>
+					{this.renderIncreaseBpmDropdown()}
+				</Collapse>
+
+				<Collapse isOpen={this.state.playMode === PlayModes.CONSTANT}>
+					<div>
+						{Tr("BPM")}
+
+						<AdvancedSlider
+							ref="constantBpmSlider"
+							title= {Tr("BPM")}
+							included={false}
+							editInPlace={true}
+							min={Config.MIN_BPM}
+							btnStep={10}
+							max={Config.MAX_BPM}
+							marks={{ 30: '30', 40: '40', 50: '50', 60: '60', 70: '70', 80: '80', 90: '90', 100: '100', 110: '110', 120: '120', 130: '130', 140: '140', 150: '150', 160: '160', 170: '170', 180: '180', 190: '190', 200: '200', 210: '210', 220: '220', 230: '230', 240: '240' }}
+							value={this.state.constantBpmSlider}
+							onChange={this.onBpmSliderChange}
+						/>
+					</div>
 				</Collapse>
 
 				<Collapse isOpen={this.state.playMode === PlayModes.SET_TIME}>
@@ -275,26 +320,31 @@ class ModePanel extends Component {
 						/>
 					</div>
 				</Collapse>
-
-				<Collapse isOpen={this.state.playMode !== PlayModes.CONSTANT && this.state.playMode !== PlayModes.SET_TIME}>
-					{this.renderIncreaseBpmDropdown()}
-				</Collapse>
-
-				<Collapse isOpen={this.state.playMode === PlayModes.CONSTANT}>
+				<Collapse isOpen={this.state.playMode === PlayModes.PERCENTAGE_TIME}>
 					<div>
-						{Tr("BPM")}
-
+						{Tr("Initial time interval")}
+						<GeometricSlider
+							ref="percentageTimeSlider"
+							defaultValue={this.state.percentageTimeInterval}
+							badgeFormatter={Utils.formatTimeLong}
+							markFormatter={Utils.formatTime}
+							onChange={v => this.onPercentageTimeIntervalChange(v)}
+							min={1}
+							max={1200}
+							marksAt={[1, 2, 5, 10, 30, 60, 120, 240, 600, 1200]}
+						/>
+					</div>
+					<div>
+						{Tr("Time decrease percentage")}
 						<AdvancedSlider
-							ref="constantBpmSlider"
-							title= {Tr("BPM")}
+							ref="percentageDecreaseSlider"
+							min={0}
+							max={100}
 							included={false}
 							editInPlace={true}
-							min={Config.MIN_BPM}
-							btnStep={10}
-							max={Config.MAX_BPM}
-							marks={{ 30: '30', 40: '40', 50: '50', 60: '60', 70: '70', 80: '80', 90: '90', 100: '100', 110: '110', 120: '120', 130: '130', 140: '140', 150: '150', 160: '160', 170: '170', 180: '180', 190: '190', 200: '200', 210: '210', 220: '220', 230: '230', 240: '240' }}
-							value={this.state.constantBpmSlider}
-							onChange={this.onBpmSliderChange}
+							marks={{ 0: '0%', 10: '10%', 20: '20%', 30: '30%', 40: '40%', 50: '50%', 60: '60%', 70: '70%', 80: '80%', 90: '90%', 100: '100%' }}
+							value={this.state.percentageDecrease}
+							onChange={(value) => this.onPercentageDecreaseChange(value)}
 						/>
 					</div>
 				</Collapse>
@@ -317,6 +367,8 @@ ModePanel.defaultProps = {
 	stepsNum: InitPreset.stepsNum,
 	exerciseTime: InitPreset.exerciseTime,
 	constantBpmSlider: InitPreset.constantBpmSlider,
+	percentageTimeInterval: 20,
+	percentageDecrease: 10,
 	// currentBpm: InitPreset.bpmRange[0],
 	onAfterChange: null
 };
