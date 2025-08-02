@@ -190,7 +190,7 @@ export const InitPreset = {
             0
         ]
     ],
-    "timeSignature": 16,
+    "timeSignature": 4,
     "samples": [
         {
             "file": "Kick.wav",
