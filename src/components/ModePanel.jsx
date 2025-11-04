@@ -205,6 +205,7 @@ class ModePanel extends Component {
 				]}
 				editInPlace={true}
 				pushable={true}
+				btnStep={this.state.bpmStep}
 				onAfterChange={(value) => this.onBpmRangeChange(value)}
 			/>
 		</div>);

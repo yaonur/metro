@@ -32,10 +32,11 @@ class AdvancedRange extends Range {
 	}
 
 	render() {
+		const btnStep = this.props.btnStep || 5;
 		return (
 			<>
 				<div className="advancedRange">
-					<Button size="sm" outline className="inlineBtn" onClick={() => this.onMinusClick(5)}>-5</Button>
+					<Button size="sm" outline className="inlineBtn" onClick={() => this.onMinusClick(btnStep)}>-{btnStep}</Button>
 					<Badge
 						color="light"
 						onClick={this.props.editInPlace ? () => this.onBadgeClick() : function () { }}
@@ -43,7 +44,7 @@ class AdvancedRange extends Range {
 					>
 						{this.state.bounds[0]} - {this.state.bounds[1]}
 					</Badge>
-					<Button size="sm" outline className="inlineBtn" onClick={() => this.onPlusClick(5)}>+5</Button>
+					<Button size="sm" outline className="inlineBtn" onClick={() => this.onPlusClick(btnStep)}>+{btnStep}</Button>
 					<RangeEditInPlace
 						ref={"editor"}
 						title={this.props.title}
@@ -65,5 +66,6 @@ export default AdvancedRange;
 // inherit props from base class
 AdvancedRange.defaultProps = Object.assign({}, Range.defaultProps, {
 	editInPlace: false,
-	title: ''
+	title: '',
+	btnStep: 5
 });
