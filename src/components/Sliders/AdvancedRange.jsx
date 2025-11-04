@@ -1,6 +1,6 @@
 import React from "react";
 import { Range } from "rc-slider";
-import { Badge } from "reactstrap";
+import { Badge, Button } from "reactstrap";
 import RangeEditInPlace from "./RangeEditInPlace";
 
 class AdvancedRange extends Range {
@@ -12,10 +12,30 @@ class AdvancedRange extends Range {
 		this.setState({ bounds: [v.min, v.max] }, () => this.props.onAfterChange(this.state.bounds))
 
 	}
+
+	onMinusClick = (value) => {
+		const currentBounds = this.state.bounds;
+		const newMin = Math.max(this.props.min, currentBounds[0] - value);
+		const newMax = Math.min(this.props.max, currentBounds[1] - value);
+		// Ensure min doesn't exceed max
+		const adjustedMin = Math.min(newMin, newMax - 1);
+		this.setState({ bounds: [adjustedMin, newMax] }, () => this.props.onAfterChange(this.state.bounds));
+	}
+
+	onPlusClick = (value) => {
+		const currentBounds = this.state.bounds;
+		const newMin = Math.max(this.props.min, currentBounds[0] + value);
+		const newMax = Math.min(this.props.max, currentBounds[1] + value);
+		// Ensure max doesn't go below min
+		const adjustedMax = Math.max(newMax, newMin + 1);
+		this.setState({ bounds: [newMin, adjustedMax] }, () => this.props.onAfterChange(this.state.bounds));
+	}
+
 	render() {
 		return (
 			<>
-				<div>
+				<div className="advancedRange">
+					<Button size="sm" outline className="inlineBtn" onClick={() => this.onMinusClick(5)}>-5</Button>
 					<Badge
 						color="light"
 						onClick={this.props.editInPlace ? () => this.onBadgeClick() : function () { }}
@@ -23,6 +43,7 @@ class AdvancedRange extends Range {
 					>
 						{this.state.bounds[0]} - {this.state.bounds[1]}
 					</Badge>
+					<Button size="sm" outline className="inlineBtn" onClick={() => this.onPlusClick(5)}>+5</Button>
 					<RangeEditInPlace
 						ref={"editor"}
 						title={this.props.title}
